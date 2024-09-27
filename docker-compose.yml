@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  master:
+    image: bitnami/spark:latest
+    environment:
+      - SPARK_MODE=master
+      - SPARK_MASTER_HOST=master
+    ports:
+      - "8080:8080"  # Spark UI
+    networks:
+      - spark-net
+
+  worker1:
+    image: bitnami/spark:latest
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://master:7077
+    networks:
+      - spark-net
+
+  worker2:
+    image: bitnami/spark:latest
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://master:7077
+    networks:
+      - spark-net
+
+networks:
+  spark-net:
